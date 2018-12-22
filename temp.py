@@ -12,7 +12,7 @@ import math
 from scipy.optimize import curve_fit
 
 
-hdulist = fits.open('E:/pytest/fits/spec-57733-EG000006N255311B01_sp01-001.fits')
+hdulist = fits.open('E:/pytest/fits/spec-55860-B6001_sp01-008.fits/spec-55860-B6001_sp01-008.fits')
 hdulist.info()
 print(hdulist[0].header)
 print(hdulist[0].header['RA'])
@@ -26,25 +26,26 @@ x = hdulist[0].data[2]
 #print(x)
 #plt.plot(x[2582:2587],y[2582:2587])
 a = []
-a = x[2573:2593]
+a = x[2579:2587]
 
 b = []
-b = y[2573:2593]
+b = y[2579:2587]
 
 
+maxfuc = max(b)
 
-def gaussian(x,*param):
-    return param[0]*np.exp(-np.power(x - param[1], 2.) / (2 * np.power(param[2], 2.)))
+def gaussian(x,*param):    
+    return maxfuc-param[0]*np.exp(-np.power(x - param[1], 2.) / (2 * np.power(param[2], 2.)))
 
 '''
 def gaussian(x,*param):
-    return param[0]*np.exp(-np.power(x - param[2], 2.) / (2 * np.power(param[4], 2.)))+\
-           param[1]*np.exp(-np.power(x - param[3], 2.) / (2 * np.power(param[5], 2.)))
+    return -1*param[0]*np.exp(-np.power(x - param[2], 2.) / (2 * np.power(param[4], 2.)))+\
+          -1*param[1]*np.exp(-np.power(x - param[3], 2.) / (2 * np.power(param[5], 2.)))
 '''
 
 #popt,pcov = curve_fit(gaussian,x,y,p0=[195,6711,8,8,6713,4])
-popt,pcov = curve_fit(gaussian,a,b,p0=[190,6707,10])
-help(curve_fit)
+popt,pcov = curve_fit(gaussian,a,b,p0=[maxfuc,6705,4])
+#help(curve_fit)
 
 print (popt)
 #print (pcov)
@@ -67,4 +68,5 @@ w = popt[2]*math.sqrt(2)
 sigma = w/2
 FWHM = sigma*2.355
 print(w)
+
 
