@@ -67,10 +67,9 @@ ax3.plot(x,y,'g',label='data')
 w = popt[2]*math.sqrt(2)
 sigma = w/2
 FWHM = sigma*2.355
-print(w)
+print("w=",w)
 
-'''
-variances = list(map(lambda x,y : (x-y)**2, b, modc))
+'''variances = list(map(lambda x,y : (x-y)**2, b, modc))
 #print(variances)
 variance = np.sum(variances)  
 RMSE =  np.sqrt(variance/len(a))
@@ -83,7 +82,7 @@ def R2_fun(y, y_forecast):
 
 
 R2 = R2_fun(b,modc)
-print(R2)
+print("R2=",R2)
 
 
 
