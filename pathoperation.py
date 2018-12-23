@@ -51,10 +51,10 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
 #print(x)
 #plt.plot(x[2582:2587],y[2582:2587])
     a = []
-    a = x[2581:2587]
+    a = x[2581:2586]
 
     b = []
-    b = y[2581:2587]
+    b = y[2581:2586]
 
 
     maxfuc = max(b)
@@ -62,7 +62,10 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
     def gaussian(x,*param):    
         return maxfuc-param[0]*np.exp(-np.power(x - param[1], 2.) / (2 * np.power(param[2], 2.)))
     try:
-        popt,pcov = curve_fit(gaussian,a,b,p0=[maxfuc,6707,2])    
+        popt,pcov = curve_fit(gaussian,a,b,p0=[maxfuc,6707,2]) 
+    except RuntimeError:
+        pass
+    else:
         modc = gaussian(a,*popt)
         w=popt[2]*math.sqrt(2)
         sigma = w/2
@@ -75,8 +78,7 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
     
         R2 = R2_fun(b,modc)
         print("R2=",R2)
-    except RuntimeError:
-        pass    
+    '''   
     fig = plt.figure()
     ax0 = fig.add_subplot(3,1,1) 
     ax0.plot(a,b,'b',label='data')
@@ -87,7 +89,7 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
     ax2.plot(a,b,'b+:',label='data')
     ax2.plot(a,modc,'ro:',label='fit')
     ax2.legend()    
-    continue
+    '''
     
        
     
