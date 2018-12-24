@@ -12,7 +12,7 @@ import math
 from scipy.optimize import curve_fit
 
 
-hdulist = fits.open('E:\pytest\B6202\spec-55862-B6202_sp16-211.fits')
+hdulist = fits.open('E:\pytest\B6202\spec-55862-B6202_sp02-148.fits')
 hdulist.info()
 print(hdulist[0].header)
 print(hdulist[0].header['RA'])
@@ -26,10 +26,10 @@ x = hdulist[0].data[2]
 #print(x)
 #plt.plot(x[2582:2587],y[2582:2587])
 a = []
-a = x[2581:2587]
+a = x[2581:2586]
 
 b = []
-b = y[2581:2587]
+b = y[2581:2586]
 
 
 maxfuc = max(b)

@@ -7,10 +7,11 @@ Created on Sun Dec 23 21:57:12 2018
 import os
 import glob
 from astropy.io import fits
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
 import math
 from scipy.optimize import curve_fit
+import xlwt
 
 
 curentpath = os.getcwd()
@@ -33,13 +34,19 @@ def eachFile(filepath):
 path = curentpath
 for infile in glob.glob(os.path.join(path, '*.gz')):
      os.remove(infile)
-   
+ 
+i = 0
+workbook = xlwt.Workbook(encoding='utf-8')
+data_sheet = workbook.add_sheet('demo',cell_overwrite_ok = True)
 for infile in glob.glob(os.path.join(path, '*.fits')):
-    print(infile)        
+    print(infile) 
+    i = i+1     
     hdulist = fits.open(infile)
     #hdulist.info()
     
-    #print(hdulist[0].header)
+    #print(hdulist[0].header)  
+    RA = hdulist[0].header['RA']
+    DEC = hdulist[0].header['DEC']
     print(hdulist[0].header['RA'])
     print(hdulist[0].header['DEC'])
 #plt.plot(hdulist[0].data[2],hdulist[0].data[0])
@@ -78,7 +85,16 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
     
         R2 = R2_fun(b,modc)
         print("R2=",R2)
-    '''   
+        
+        data_sheet.write(i, 0, RA)
+        data_sheet.write(i, 1, DEC)
+        data_sheet.write(i, 2, infile)
+        data_sheet.write(i, 3, R2)
+        data_sheet.write(i, 4, w)
+        
+workbook.save('E:/demo.xls')  
+      
+'''   
     fig = plt.figure()
     ax0 = fig.add_subplot(3,1,1) 
     ax0.plot(a,b,'b',label='data')
@@ -88,8 +104,9 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
     ax2 = fig.add_subplot(3,1,3) 
     ax2.plot(a,b,'b+:',label='data')
     ax2.plot(a,modc,'ro:',label='fit')
-    ax2.legend()    
-    '''
+    ax2.legend() 
+'''
+    
     
        
     
