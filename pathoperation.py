@@ -16,11 +16,13 @@ import xlwt
 
 curentpath = os.getcwd()
 #help('os.chdir')
-os.chdir('E:\pytest\B6202')
+#os.chdir('E:\pytest\B6202') #H:\LamostData\dr5-v1\fits\B6001
+os.chdir('E:\pytest\B6202') 
 curentpath = os.getcwd()
+#curentpath = 'H:\LamostData\dr5-v1\fits\B6001'
 print(curentpath)
 
-
+'''
 def eachFile(filepath):
     """ 读取文件夹下面的所有文件 的路径"""
     pathDir = os.listdir(filepath)
@@ -29,11 +31,13 @@ def eachFile(filepath):
         child = os.path.join('%s%s' % (filepath, allDir))
         file_path_list.append(child)
     return file_path_list
-
+'''
 
 path = curentpath
+'''
 for infile in glob.glob(os.path.join(path, '*.gz')):
      os.remove(infile)
+'''
  
 i = 0
 workbook = xlwt.Workbook(encoding='utf-8')
@@ -47,6 +51,7 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
     #print(hdulist[0].header)  
     RA = hdulist[0].header['RA']
     DEC = hdulist[0].header['DEC']
+    SUBCLASS = hdulist[0].header['SUBCLASS']
     print(hdulist[0].header['RA'])
     print(hdulist[0].header['DEC'])
 #plt.plot(hdulist[0].data[2],hdulist[0].data[0])
@@ -58,10 +63,10 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
 #print(x)
 #plt.plot(x[2582:2587],y[2582:2587])
     a = []
-    a = x[2581:2586]
+    a = x[2580:2585]
 
     b = []
-    b = y[2581:2586]
+    b = y[2580:2585]
 
 
     maxfuc = max(b)
@@ -69,7 +74,7 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
     def gaussian(x,*param):    
         return maxfuc-param[0]*np.exp(-np.power(x - param[1], 2.) / (2 * np.power(param[2], 2.)))
     try:
-        popt,pcov = curve_fit(gaussian,a,b,p0=[maxfuc,6707,2]) 
+        popt,pcov = curve_fit(gaussian,a,b,p0=[maxfuc,6705,2]) 
     except RuntimeError:
         pass
     else:
@@ -91,8 +96,9 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
         data_sheet.write(i, 2, infile)
         data_sheet.write(i, 3, R2)
         data_sheet.write(i, 4, w)
+        data_sheet.write(i, 5, SUBCLASS)
         
-workbook.save('E:/demo.xls')  
+workbook.save('E:/B6.xls')  
       
 '''   
     fig = plt.figure()

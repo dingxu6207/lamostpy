@@ -12,7 +12,7 @@ import math
 from scipy.optimize import curve_fit
 
 
-hdulist = fits.open('E:\pytest\B6202\spec-55862-B6202_sp02-148.fits')
+hdulist = fits.open('E:/pytest/spec-55859-F5902_sp01-073.fits/spec-55859-F5902_sp01-073.fits')
 hdulist.info()
 print(hdulist[0].header)
 print(hdulist[0].header['RA'])
@@ -26,13 +26,15 @@ x = hdulist[0].data[2]
 #print(x)
 #plt.plot(x[2582:2587],y[2582:2587])
 a = []
-a = x[2581:2586]
+a = x[2577:2585]
 
 b = []
-b = y[2581:2586]
-
+b = y[2577:2585]
 
 maxfuc = max(b)
+minfuc = min(b)
+
+bnew = (b - minfuc)/(maxfuc - minfuc)
 
 def gaussian(x,*param):    
     return maxfuc-param[0]*np.exp(-np.power(x - param[1], 2.) / (2 * np.power(param[2], 2.)))
@@ -50,24 +52,30 @@ modc = gaussian(a,*popt)
 print (popt)
 #print (pcov)
 fig = plt.figure()
-ax0 = fig.add_subplot(3,1,1) 
+ax0 = fig.add_subplot(3,1,2) 
 ax0.plot(a,b,'b',label='data')
 
-ax1 = fig.add_subplot(3,1,2) 
+'''
+ax1 = fig.add_subplot(4,1,2) 
 ax1.plot(a,modc,'r',label='fit')
+'''
 
 ax2 = fig.add_subplot(3,1,3) 
 ax2.plot(a,b,'b+:',label='data')
 ax2.plot(a,modc,'ro:',label='fit')
 ax2.legend()
-'''
-ax3 = fig.add_subplot(4,1,4) 
+
+
+
+ax3 = fig.add_subplot(3,1,1) 
 ax3.plot(x,y,'g',label='data')
-'''
+
+
 w = popt[2]*math.sqrt(2)
 sigma = w/2
 FWHM = sigma*2.355
 print("w=",w)
+print("FWHM=",-FWHM)
 
 '''variances = list(map(lambda x,y : (x-y)**2, b, modc))
 #print(variances)
