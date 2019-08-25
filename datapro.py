@@ -18,18 +18,23 @@ zuoxian = 2580
 youxian = 2587
 
 #生成模板函数
-def fun(x):
-    m  = 1 - np.exp(-((x-3)**2)/(2*6)) + 0.4
+def fun(x,a,b):
+    m  = 1 - np.exp(-((x-3)**2)/(2*a)) + b
     return m
 
-matrix = [0 for i in range(7)]
+matrix0 = [0 for i in range(7)]
+matrix1 = [0 for i in range(7)]
+matrix2 = [0 for i in range(7)]
 
 i = 0
 for i in range(0,7):
-    matrix[i] = fun(i)
+    matrix0[i] = fun(i,4,0.3)
+    matrix1[i] = fun(i,5,0.4)
+    matrix2[i] = fun(i,7,0.5)
 
-Liflux = matrix
-print(Liflux)
+Liflux0 = matrix0
+Liflux1 = matrix1
+Liflux2 = matrix2
 
 def plotxy(Liwavelength,Liflux):
     plt.plot(Liwavelength, Liflux)
@@ -45,6 +50,14 @@ def guiyihua(fluxdata):
     guiyidata = fenzi/fenmu
     return guiyidata
 
+#最近邻居求解
+def zuijinlin(b,Liflux):
+    cha = b - Liflux
+    pingfang = cha**2
+    suma = sum(pingfang)
+    sqrta = math.sqrt(suma)
+    return sqrta
+
 #excel表
 workbook = xlwt.Workbook(encoding='utf-8')
 data_sheet = workbook.add_sheet('demo',cell_overwrite_ok = True)
@@ -54,6 +67,7 @@ curentpath = os.getcwd()
 print(curentpath)
 path = curentpath
 hangcount = 0;
+sqrtlist = [0 for i in range(3)]
 for infile in glob.glob(os.path.join(path, '*.fits')):
     #print(infile) 
     phdulist = fits.open(infile)
@@ -62,11 +76,12 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
     x = phdulist[0].data[2]
     a = x[zuoxian:youxian]
     b = y[zuoxian:youxian]  
-    cha = b - Liflux
-    pingfang = cha**2
-    type(pingfang)
-    suma = sum(pingfang)
-    sqrta = math.sqrt(suma)
+    
+    sqrt0 = zuijinlin(b,Liflux0)
+    sqrt1 = zuijinlin(b,Liflux1)
+    sqrt2 = zuijinlin(b,Liflux2)
+    sqrtlist = [sqrt0,sqrt1,sqrt2]
+    sqrta = min(sqrtlist)
     #print(sqrta)
     hangcount = hangcount + 1
     

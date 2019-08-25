@@ -10,9 +10,9 @@ from astropy.io import fits
 import matplotlib.pyplot as plt
 
 
-hdulist = fits.open('E:\pytest\B6202\spec-55862-B6202_sp02-230.fits')
+hdulist = fits.open('E:\pytest\B6202\spec-55862-B6202_sp13-215.fits')
 hdulist.info()
-#print(hdulist[0].header)
+print(hdulist[0].header)
 
 flux = hdulist[0].data[0]
 wavelength = hdulist[0].data[2]
@@ -32,3 +32,5 @@ def plotxy(Liwavelength,Liflux):
     plt.show()
 
 plotxy(Liwavelength,Liflux)
+
+print(Liflux)
