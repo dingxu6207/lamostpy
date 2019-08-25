@@ -11,24 +11,25 @@ import matplotlib.pyplot as plt
 import glob
 import math
 import xlwt
+import numpy as np
 
-hdulist = fits.open('E:/pytest/B6202/spec-55862-B6202_sp01-001.fits')
-hdulist.info()
-#print(hdulist[0].header)
 
-flux = hdulist[0].data[0]
-wavelength = hdulist[0].data[2]
+zuoxian = 2580
+youxian = 2587
 
-maxflux = max(flux)
-minflux = min(flux)
-fenmu = maxflux - minflux
-fenzi = flux - minflux
-lastflux = fenzi/fenmu
+#生成模板函数
+def fun(x):
+    m  = 1 - np.exp(-((x-3)**2)/(2*6)) + 0.4
+    return m
 
-zuoxian = 2581
-youxian = 2586
-Liwavelength = wavelength[zuoxian:youxian]
-Liflux = lastflux[zuoxian:youxian]
+matrix = [0 for i in range(7)]
+
+i = 0
+for i in range(0,7):
+    matrix[i] = fun(i)
+
+Liflux = matrix
+print(Liflux)
 
 def plotxy(Liwavelength,Liflux):
     plt.plot(Liwavelength, Liflux)

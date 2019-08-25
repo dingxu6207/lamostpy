@@ -10,7 +10,7 @@ from astropy.io import fits
 import matplotlib.pyplot as plt
 
 
-hdulist = fits.open('E:\pytest\B6202\spec-55862-B6202_sp15-058.fits')
+hdulist = fits.open('E:\pytest\B6202\spec-55862-B6202_sp02-230.fits')
 hdulist.info()
 #print(hdulist[0].header)
 
@@ -24,8 +24,8 @@ fenzi = flux - minflux
 lastflux = fenzi/fenmu
 
 
-Liwavelength = wavelength[2580:2586]
-Liflux = lastflux[2580:2586]
+Liwavelength = wavelength[2580:2587]
+Liflux = lastflux[2580:2587]
 
 def plotxy(Liwavelength,Liflux):
     plt.plot(Liwavelength, Liflux)
