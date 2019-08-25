@@ -10,7 +10,7 @@ from astropy.io import fits
 import matplotlib.pyplot as plt
 
 
-hdulist = fits.open('E:\pytest\B6202\spec-55862-B6202_sp13-215.fits')
+hdulist = fits.open('E:\pytest\B6202\spec-55862-B6202_sp01-052.fits')
 hdulist.info()
 print(hdulist[0].header)
 
