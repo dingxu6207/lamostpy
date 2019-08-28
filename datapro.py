@@ -18,8 +18,8 @@ zuoxian = 2580
 youxian = 2587
 
 #生成模板函数
-def fun(x,a,b):
-    m  = 1 - np.exp(-((x-3)**2)/(2*a)) + b
+def fun(x,a,b,c):
+    m  = 1 - a*np.exp(-((x-3)**2)/(2*b)) + c
     return m
 
 matrix0 = [0 for i in range(7)]
@@ -28,9 +28,9 @@ matrix2 = [0 for i in range(7)]
 
 i = 0
 for i in range(0,7):
-    matrix0[i] = fun(i,4,0.3)
-    matrix1[i] = fun(i,5,0.4)
-    matrix2[i] = fun(i,7,0.5)
+    matrix0[i] = fun(i,0.22,78.97,-0.13)
+    matrix1[i] = fun(i,0.28,117,-0.007)
+    matrix2[i] = fun(i,0.04,3.93,-0.27)
 
 Liflux0 = matrix0
 Liflux1 = matrix1
