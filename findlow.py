@@ -48,16 +48,42 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
     #b = y[zuoxian:youxian] 
     b = y
     #b[2] < b[1] b[1] < b[0] b[2] < b[3]  b[3] < b[4] 
-    
-    if ((b[6] < b[5]) and (b[5] <= b[4]) and (b[6] < b[7])and (b[7] <= b[8])):
-        hangcount = hangcount + 1    
-        RA = phdulist[0].header['RA']
-        DEC = phdulist[0].header['DEC']
-        SUBCLASS = phdulist[0].header['SUBCLASS']
-        data_sheet.write(hangcount, 0, infile)
-        data_sheet.write(hangcount, 1, RA)
-        data_sheet.write(hangcount, 2, DEC)
-        data_sheet.write(hangcount, 3, SUBCLASS)   
+    Z = phdulist[0].header['Z']
+    if (Z > -0.000184) and (Z < 0.000276):
+        if ((b[6] <= b[5]) and (b[5] <= b[4]) and (b[6] <= b[7])and (b[7] <= b[8])):
+            hangcount = hangcount + 1    
+            RA = phdulist[0].header['RA']
+            DEC = phdulist[0].header['DEC']
+            SUBCLASS = phdulist[0].header['SUBCLASS']
+            data_sheet.write(hangcount, 0, infile)
+            data_sheet.write(hangcount, 1, RA)
+            data_sheet.write(hangcount, 2, DEC)
+            data_sheet.write(hangcount, 3, SUBCLASS)
+            data_sheet.write(hangcount, 4, Z) 
+            
+    if (Z < -0.000184):
+        if ((b[5] <= b[4]) and (b[4] <= b[3]) and (b[5] <= b[6])and (b[6] <= b[7])):
+            hangcount = hangcount + 1    
+            RA = phdulist[0].header['RA']
+            DEC = phdulist[0].header['DEC']
+            SUBCLASS = phdulist[0].header['SUBCLASS']
+            data_sheet.write(hangcount, 0, infile)
+            data_sheet.write(hangcount, 1, RA)
+            data_sheet.write(hangcount, 2, DEC)
+            data_sheet.write(hangcount, 3, SUBCLASS)
+            data_sheet.write(hangcount, 4, Z) 
+            
+    if (Z > 0.000276):
+        if ((b[7] <= b[6]) and (b[6] <= b[5]) and (b[7] <= b[8])and (b[8] <= b[9])):
+            hangcount = hangcount + 1    
+            RA = phdulist[0].header['RA']
+            DEC = phdulist[0].header['DEC']
+            SUBCLASS = phdulist[0].header['SUBCLASS']
+            data_sheet.write(hangcount, 0, infile)
+            data_sheet.write(hangcount, 1, RA)
+            data_sheet.write(hangcount, 2, DEC)
+            data_sheet.write(hangcount, 3, SUBCLASS)
+            data_sheet.write(hangcount, 4, Z) 
     
 workbook.save('E:/B6.xls')          
             
