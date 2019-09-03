@@ -14,23 +14,24 @@ import xlwt
 import numpy as np
 
 
-zuoxian = 2580
+zuoxian = 2582
 youxian = 2587
+
+
+matrix0 = [0 for i in range(5)]
+matrix1 = [0 for i in range(5)]
+matrix2 = [0 for i in range(5)]
 
 #生成模板函数
 def fun(x,a,b,c):
-    m  = 1 - a*np.exp(-((x-3)**2)/(2*b)) + c
+    m  = 1 - a*np.exp(-((x-2)**2)/(2*b)) + c
     return m
 
-matrix0 = [0 for i in range(7)]
-matrix1 = [0 for i in range(7)]
-matrix2 = [0 for i in range(7)]
-
 i = 0
-for i in range(0,7):
-    matrix0[i] = fun(i,0.22,78.97,-0.13)
-    matrix1[i] = fun(i,0.28,117,-0.007)
-    matrix2[i] = fun(i,0.04,3.93,-0.27)
+for i in range(0,5):
+    matrix0[i] = fun(i,0.0459,14.02,-0.30)
+    matrix1[i] = fun(i,0.0459,14.02,-0.30)
+    matrix2[i] = fun(i,0.0459,14.02,-0.30)
 
 Liflux0 = matrix0
 Liflux1 = matrix1

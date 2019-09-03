@@ -24,8 +24,8 @@ fenzi = flux - minflux
 lastflux = fenzi/fenmu
 
 
-Liwavelength = wavelength[2580:2587]
-Liflux = lastflux[2580:2587]
+Liwavelength = wavelength[2582:2587]
+Liflux = lastflux[2582:2587]
 
 def plotxy(Liwavelength,Liflux):
     plt.plot(Liwavelength, Liflux)
@@ -33,7 +33,7 @@ def plotxy(Liwavelength,Liflux):
 plotxy(Liwavelength,Liflux)
 
 def gaussian(x,a,b,c):    
-    return  1 - a*np.exp(-((x-6707)**2)/(2*b)) + c
+    return  1 - a*np.exp(-((x-6708)**2)/(2*b)) + c
 
 popt, pcov = curve_fit(gaussian, Liwavelength, Liflux)
 
