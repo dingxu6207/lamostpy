@@ -11,7 +11,7 @@ matrix0 = [0 for i in range(7)]
 
 #生成模板函数
 def fun(x,a,b,c):
-    m  = 1 - a*np.exp(-((x-3)**2)/(2*b)) + c
+    m  = c + 1 - a*np.exp(-((x-3)**2)/(2*b)) 
     return m
 
 i = 0

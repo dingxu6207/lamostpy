@@ -8,31 +8,24 @@ import os
 from astropy.io import fits
 import glob
 import xlwt
+from scipy import signal
+from scipy.optimize import curve_fit
 import numpy as np
+
 '''
 zuoxian = 2582
 youxian = 2587
 '''
-zuoxian = 2578
-youxian = 2591
+zuoxian = 2580
+youxian = 2589
 
 os.chdir('E:\pytest\B6202')
 curentpath = os.getcwd()
 print(curentpath)
 path = curentpath
 
-#归一化代码
-guiyidata = np.zeros(13)
-def guiyihua(fluxdata):
-    maxdata = max(fluxdata)
-    mindata = min(fluxdata)
-    fenmu = maxdata - mindata
-    fenzi = fluxdata - mindata
-    if fenmu > 0:
-       guiyidata = fenzi/fenmu
-    else:
-        guiyidata = np.zeros(13)
-    return guiyidata
+def gaussian(x,a,b,c):    
+    return  c - a*np.exp(-((x-2)**2)/(2*b)) 
 
 hangcount = 0
 #excel表
@@ -40,18 +33,23 @@ workbook = xlwt.Workbook(encoding='utf-8')
 data_sheet = workbook.add_sheet('demo',cell_overwrite_ok = True)
 for infile in glob.glob(os.path.join(path, '*.fits')):
     phdulist = fits.open(infile)
-    y = phdulist[0].data[0]
-    data = y[zuoxian:youxian]
-    y = guiyihua(data)
-    #x = phdulist[0].data[2]
-    #a = x[zuoxian:youxian]
-    #b = y[zuoxian:youxian] 
-    b = y
+    flux = phdulist[0].data[0]
+    Liwave = phdulist[0].data[2]
+    zhongzhidata = signal.medfilt(flux,79)
+    guiyidata = flux/(zhongzhidata+0.00000001)
+    data = guiyidata[zuoxian:youxian]
+    Liwavelength = Liwave[zuoxian:youxian]
+    
+    a = [0,1,2,3,4]
+    b = data
     #b[2] < b[1] b[1] < b[0] b[2] < b[3]  b[3] < b[4] 
     Z = phdulist[0].header['Z']
     if (Z > -0.000184) and (Z < 0.000276):
-        if ((b[6] <= b[5]) and (b[5] <= b[4]) and (b[6] <= b[7])and (b[7] <= b[8])):
-            hangcount = hangcount + 1    
+        if ((b[4] <= b[3]) and (b[3] <= b[2]) and (b[4] <= b[5])and (b[5] <= b[6])):           
+            hangcount = hangcount + 1 
+            xuanb = (b[2],b[3],b[4],b[5],b[6])
+            
+            popt, pcov = curve_fit(gaussian, a, xuanb)
             RA = phdulist[0].header['RA']
             DEC = phdulist[0].header['DEC']
             SUBCLASS = phdulist[0].header['SUBCLASS']
@@ -60,10 +58,13 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
             data_sheet.write(hangcount, 2, DEC)
             data_sheet.write(hangcount, 3, SUBCLASS)
             data_sheet.write(hangcount, 4, Z) 
+            data_sheet.write(hangcount, 5, popt[1]) 
             
     if (Z < -0.000184):
-        if ((b[5] <= b[4]) and (b[4] <= b[3]) and (b[5] <= b[6])and (b[6] <= b[7])):
-            hangcount = hangcount + 1    
+        if ((b[3] <= b[2]) and (b[2] <= b[1]) and (b[3] <= b[4])and (b[4] <= b[5])):
+            hangcount = hangcount + 1  
+            xuanb = (b[1],b[2],b[3],b[4],b[5])
+            popt, pcov = curve_fit(gaussian, a, xuanb)
             RA = phdulist[0].header['RA']
             DEC = phdulist[0].header['DEC']
             SUBCLASS = phdulist[0].header['SUBCLASS']
@@ -71,11 +72,14 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
             data_sheet.write(hangcount, 1, RA)
             data_sheet.write(hangcount, 2, DEC)
             data_sheet.write(hangcount, 3, SUBCLASS)
-            data_sheet.write(hangcount, 4, Z) 
+            data_sheet.write(hangcount, 4, Z)
+            data_sheet.write(hangcount, 5, popt[1])
             
     if (Z > 0.000276):
-        if ((b[7] <= b[6]) and (b[6] <= b[5]) and (b[7] <= b[8])and (b[8] <= b[9])):
-            hangcount = hangcount + 1    
+        if ((b[5] <= b[4]) and (b[4] <= b[3]) and (b[5] <= b[6])and (b[6] <= b[7])):
+            hangcount = hangcount + 1
+            xuanb = (b[3],b[4],b[5],b[6],b[7])
+            popt, pcov = curve_fit(gaussian, a, xuanb)
             RA = phdulist[0].header['RA']
             DEC = phdulist[0].header['DEC']
             SUBCLASS = phdulist[0].header['SUBCLASS']
@@ -84,6 +88,7 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
             data_sheet.write(hangcount, 2, DEC)
             data_sheet.write(hangcount, 3, SUBCLASS)
             data_sheet.write(hangcount, 4, Z) 
+            data_sheet.write(hangcount, 5, popt[1])
     
 workbook.save('E:/B6.xls')          
             
