@@ -40,6 +40,14 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
     data = guiyidata[zuoxian:youxian]
     Liwavelength = Liwave[zuoxian:youxian]
     
+    data_sheet.write(0, 0, 'file')
+    data_sheet.write(0, 1, 'RA')
+    data_sheet.write(0, 2, 'DEC')
+    data_sheet.write(0, 3, 'SUBCLASS')
+    data_sheet.write(0, 4, 'Z') 
+    data_sheet.write(0, 5, 'sigma') 
+    data_sheet.write(0, 6, 'minb')
+    
     a = [0,1,2,3,4]
     b = data
     #b[2] < b[1] b[1] < b[0] b[2] < b[3]  b[3] < b[4] 
@@ -47,8 +55,7 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
     if (Z > -0.000184) and (Z < 0.000276):
         if ((b[4] <= b[3]) and (b[3] <= b[2]) and (b[4] <= b[5])and (b[5] <= b[6])):           
             hangcount = hangcount + 1 
-            xuanb = (b[2],b[3],b[4],b[5],b[6])
-            
+            xuanb = (b[2],b[3],b[4],b[5],b[6])            
             popt, pcov = curve_fit(gaussian, a, xuanb)
             RA = phdulist[0].header['RA']
             DEC = phdulist[0].header['DEC']
@@ -59,6 +66,7 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
             data_sheet.write(hangcount, 3, SUBCLASS)
             data_sheet.write(hangcount, 4, Z) 
             data_sheet.write(hangcount, 5, popt[1]) 
+            data_sheet.write(hangcount, 6, b[4])
             
     if (Z < -0.000184):
         if ((b[3] <= b[2]) and (b[2] <= b[1]) and (b[3] <= b[4])and (b[4] <= b[5])):
@@ -74,6 +82,7 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
             data_sheet.write(hangcount, 3, SUBCLASS)
             data_sheet.write(hangcount, 4, Z)
             data_sheet.write(hangcount, 5, popt[1])
+            data_sheet.write(hangcount, 6, b[3])
             
     if (Z > 0.000276):
         if ((b[5] <= b[4]) and (b[4] <= b[3]) and (b[5] <= b[6])and (b[6] <= b[7])):
@@ -89,8 +98,8 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
             data_sheet.write(hangcount, 3, SUBCLASS)
             data_sheet.write(hangcount, 4, Z) 
             data_sheet.write(hangcount, 5, popt[1])
-    
-workbook.save('E:/B6.xls')          
+            data_sheet.write(hangcount, 6, b[5])
+workbook.save(keepfilename)          
             
         
 

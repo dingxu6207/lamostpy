@@ -11,7 +11,7 @@ import numpy as np
 from scipy.optimize import curve_fit
 from scipy import signal
 
-hdulist = fits.open('E:\pytest\B6202\spec-55862-B6202_sp09-153.fits')
+hdulist = fits.open('E:\pytest\B6202\spec-55862-B6202_sp09-187.fits')
 hdulist.info()
 print(hdulist[0].header)
 
@@ -26,12 +26,7 @@ guiyidata = flux/(zhongzhidata+0.000001)
 Liwavelength = wavelength[2580:2589]
 Liflux = guiyidata[2580:2589]
 
-
-
-def plotxy(Liwavelength,Liflux):
-    plt.plot(Liwavelength, Liflux)
     
-
 a = [0,1,2,3,4]
 
 def gaussian(x,a,b,c): 
@@ -61,8 +56,8 @@ y2 = [gaussian(i, popt[0],popt[1],popt[2]) for i in a]
 
 print (popt)
 
-plotxy(a,xuanb)
+plt.plot(a,xuanb,linestyle = "--")
 #plotxy(Liwavelength,pinghuaflux)
-plotxy(a,y2)
+plt.plot(a,y2)
 plt.legend()
 plt.show()
