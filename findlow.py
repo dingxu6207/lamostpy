@@ -99,6 +99,7 @@ for infile in glob.glob(os.path.join(path, '*.fits')):
             data_sheet.write(hangcount, 4, Z) 
             data_sheet.write(hangcount, 5, popt[1])
             data_sheet.write(hangcount, 6, b[5])
+keepfilename =  'E:/' + path[-5:] + '.xls'
 workbook.save(keepfilename)          
             
         
