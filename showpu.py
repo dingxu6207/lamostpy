@@ -11,7 +11,7 @@ from scipy import signal
 
 
 
-hdulist = fits.open('E:\pytest\B6202\spec-55862-B6202_sp09-134.fits')
+hdulist = fits.open('E:\pytest\data\B90305\spec-55903-B90305_sp08-053.fits.gz')
 hdulist.info()
 print(hdulist[0].header)
 
