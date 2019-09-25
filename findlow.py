@@ -62,9 +62,10 @@ for root, dirs, files in os.walk(path):
                    qiusum = b[2]+b[3]+b[4]+b[5]+b[6]                               
                    RA = phdulist[0].header['RA']
                    DEC = phdulist[0].header['DEC']
-                   SUBCLASS = phdulist[0].header['SUBCLASS']   
+                   SUBCLASS = phdulist[0].header['SUBCLASS'] 
+                   OBJTYPE = phdulist[0].header['OBJTYPE']
                    
-                   if (b[4] < 0.8 and SUBCLASS != 'Non'):
+                   if (b[4] < 0.8 and SUBCLASS != 'Non' and OBJTYPE == 'Star'):
                        hangcount = hangcount + 1 
                        data_sheet.write(hangcount, 0, fitstrfile)
                        data_sheet.write(hangcount, 1, RA)
@@ -75,7 +76,7 @@ for root, dirs, files in os.walk(path):
                        data_sheet.write(hangcount, 6, qiusum)
                        data_sheet.write(hangcount, 7, (-1 if(b[2] > b[1]) else 1))
                        data_sheet.write(hangcount, 8, (-1 if(b[6] > b[7]) else 1))
-                       print('write'+strfile+' is ok!') 
+                       print('write '+strfile+' is ok!') 
             
             
            if (Z < -0.000184):
@@ -84,8 +85,9 @@ for root, dirs, files in os.walk(path):
                    RA = phdulist[0].header['RA']
                    DEC = phdulist[0].header['DEC']
                    SUBCLASS = phdulist[0].header['SUBCLASS']
+                   OBJTYPE = phdulist[0].header['OBJTYPE']
                    
-                   if (b[3] < 0.8 and SUBCLASS != 'Non'):
+                   if (b[3] < 0.8 and SUBCLASS != 'Non' and OBJTYPE == 'Star'):
                        hangcount = hangcount + 1 
                        data_sheet.write(hangcount, 0, fitstrfile)
                        data_sheet.write(hangcount, 1, RA)
@@ -96,7 +98,7 @@ for root, dirs, files in os.walk(path):
                        data_sheet.write(hangcount, 6, qiusum)
                        data_sheet.write(hangcount, 7, (-1 if(b[1] > b[0]) else 1))
                        data_sheet.write(hangcount, 8, (-1 if(b[5] > b[6]) else 1))
-                       print('write'+strfile+' is ok!') 
+                       print('write '+strfile+' is ok!') 
             
            if (Z > 0.000276):
                if ((b[5] < b[4]) and (b[4] <= b[3]) and (b[5] < b[6])and (b[6] <= b[7])):
@@ -104,8 +106,9 @@ for root, dirs, files in os.walk(path):
                    RA = phdulist[0].header['RA']
                    DEC = phdulist[0].header['DEC']
                    SUBCLASS = phdulist[0].header['SUBCLASS']
+                   OBJTYPE = phdulist[0].header['OBJTYPE']
                    
-                   if (b[5] < 0.8 and SUBCLASS != 'Non'):
+                   if (b[5] < 0.8 and SUBCLASS != 'Non' and OBJTYPE == 'Star'):
                        hangcount = hangcount + 1 
                        data_sheet.write(hangcount, 0, fitstrfile)
                        data_sheet.write(hangcount, 1, RA)
@@ -116,9 +119,9 @@ for root, dirs, files in os.walk(path):
                        data_sheet.write(hangcount, 6, qiusum)
                        data_sheet.write(hangcount, 7, (-1 if(b[3] > b[2]) else 1))
                        data_sheet.write(hangcount, 8, (-1 if(b[7] > b[8]) else 1))
-                       print('write'+strfile+' is ok!') 
+                       print('write '+strfile+' is ok!') 
 
-           if (hangcount == 20):
+           if (hangcount == 65534):
               hangcount = 0
               sheet = sheet + 1
               strsheet = str(sheet)
