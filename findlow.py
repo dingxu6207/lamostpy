@@ -64,7 +64,7 @@ for root, dirs, files in os.walk(path):
                    DEC = phdulist[0].header['DEC']
                    SUBCLASS = phdulist[0].header['SUBCLASS']   
                    
-                   if (b[4] < 0.8):
+                   if (b[4] < 0.8 and SUBCLASS != 'Non'):
                        hangcount = hangcount + 1 
                        data_sheet.write(hangcount, 0, fitstrfile)
                        data_sheet.write(hangcount, 1, RA)
@@ -85,7 +85,7 @@ for root, dirs, files in os.walk(path):
                    DEC = phdulist[0].header['DEC']
                    SUBCLASS = phdulist[0].header['SUBCLASS']
                    
-                   if (b[3] < 0.8):
+                   if (b[3] < 0.8 and SUBCLASS != 'Non'):
                        hangcount = hangcount + 1 
                        data_sheet.write(hangcount, 0, fitstrfile)
                        data_sheet.write(hangcount, 1, RA)
@@ -105,7 +105,7 @@ for root, dirs, files in os.walk(path):
                    DEC = phdulist[0].header['DEC']
                    SUBCLASS = phdulist[0].header['SUBCLASS']
                    
-                   if (b[5] < 0.8):
+                   if (b[5] < 0.8 and SUBCLASS != 'Non'):
                        hangcount = hangcount + 1 
                        data_sheet.write(hangcount, 0, fitstrfile)
                        data_sheet.write(hangcount, 1, RA)
