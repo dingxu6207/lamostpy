@@ -17,7 +17,7 @@ zuoxian = 2580
 youxian = 2589
 
 #I:/dingxuhardware/lamostdr5/dr5-v1/fits
-os.chdir('E:/pytest/data')
+os.chdir('J:/dingxuhardware/lamostdr5/dr5-v1/fits')
 curentpath = os.getcwd()
 print(curentpath)
 path = curentpath
@@ -36,12 +36,16 @@ for root, dirs, files in os.walk(path):
        if (strfile[-3:] == '.gz'):
            fitstrfile = strfile.replace(".gz", "")
           # phdulist = fits.open(fitstrfile)
-           phdulist = fits.open(strfile)
+           try:
+               phdulist = fits.open(strfile)
+           except OSError:
+               break
+           
            flux = phdulist[0].data[0]
            Liwave = phdulist[0].data[2]
            zhongzhidata = signal.medfilt(flux,79)
            guiyidata = flux/(zhongzhidata+0.00000001)
-           data = guiyidata[zuoxian:youxian]
+           data = guiyidata[zuoxian:youxian]     
            Liwavelength = Liwave[zuoxian:youxian]
     
            data_sheet.write(0, 0, 'file')
@@ -51,21 +55,21 @@ for root, dirs, files in os.walk(path):
            data_sheet.write(0, 4, 'Z') 
            data_sheet.write(0, 5, 'sigma') 
            data_sheet.write(0, 6, 'sum')
-           data_sheet.write(0, 7, 'zuocha')
+           data_sheet.write(0, 7, 'zuocha')  
            data_sheet.write(0, 8, 'youcha')
            
            b = data
            #b[2] < b[1] b[1] < b[0] b[2] < b[3]  b[3] < b[4] 
            Z = phdulist[0].header['Z']
            if (Z > -0.000184) and (Z < 0.000276):
-               if ((b[4] < b[3]) and (b[3] <= b[2]) and (b[4] < b[5])and (b[5] <= b[6])):  
-                   qiusum = b[2]+b[3]+b[4]+b[5]+b[6]                               
+               if ((b[4] < b[3]) and (b[3] <= b[2]) and (b[4] < b[5])and (b[5] <= b[6])): 
+                   qiusum = b[3]+b[4]+b[5]                               
                    RA = phdulist[0].header['RA']
                    DEC = phdulist[0].header['DEC']
                    SUBCLASS = phdulist[0].header['SUBCLASS'] 
                    OBJTYPE = phdulist[0].header['OBJTYPE']
                    
-                   if (b[4] < 0.8 and SUBCLASS != 'Non' and OBJTYPE == 'Star'):
+                   if (b[4] < 0.7  and SUBCLASS != 'Non' and OBJTYPE == 'Star'):
                        hangcount = hangcount + 1 
                        data_sheet.write(hangcount, 0, fitstrfile)
                        data_sheet.write(hangcount, 1, RA)
@@ -80,14 +84,14 @@ for root, dirs, files in os.walk(path):
             
             
            if (Z < -0.000184):
-               if ((b[3] < b[2]) and (b[2] <= b[1]) and (b[3] < b[4])and (b[4] <= b[5])):
-                   qiusum = b[2]+b[3]+b[4]+b[5]+b[1]
+               if ((b[3] < b[2]) and (b[2] <= b[1]) and (b[3] < b[4])and (b[4] <= b[5])):   
+                   qiusum = b[2]+b[3]+b[4]
                    RA = phdulist[0].header['RA']
                    DEC = phdulist[0].header['DEC']
                    SUBCLASS = phdulist[0].header['SUBCLASS']
                    OBJTYPE = phdulist[0].header['OBJTYPE']
                    
-                   if (b[3] < 0.8 and SUBCLASS != 'Non' and OBJTYPE == 'Star'):
+                   if (b[3] < 0.7 and SUBCLASS != 'Non' and OBJTYPE == 'Star'):
                        hangcount = hangcount + 1 
                        data_sheet.write(hangcount, 0, fitstrfile)
                        data_sheet.write(hangcount, 1, RA)
@@ -101,14 +105,14 @@ for root, dirs, files in os.walk(path):
                        print('write '+strfile+' is ok!') 
             
            if (Z > 0.000276):
-               if ((b[5] < b[4]) and (b[4] <= b[3]) and (b[5] < b[6])and (b[6] <= b[7])):
-                   qiusum = b[7]+b[3]+b[4]+b[5]+b[6]          
+               if (b[5] < b[4] and b[4] <= b[3] and b[5] < b[6] and b[6] <= b[7]):
+                   qiusum = b[4]+b[5]+b[6]          
                    RA = phdulist[0].header['RA']
                    DEC = phdulist[0].header['DEC']
                    SUBCLASS = phdulist[0].header['SUBCLASS']
                    OBJTYPE = phdulist[0].header['OBJTYPE']
                    
-                   if (b[5] < 0.8 and SUBCLASS != 'Non' and OBJTYPE == 'Star'):
+                   if (b[5] < 0.7 and SUBCLASS != 'Non' and OBJTYPE == 'Star'):
                        hangcount = hangcount + 1 
                        data_sheet.write(hangcount, 0, fitstrfile)
                        data_sheet.write(hangcount, 1, RA)

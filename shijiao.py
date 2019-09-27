@@ -5,8 +5,8 @@ Created on Mon Aug 26 06:03:14 2019
 @author: dingxu
 """
 
-RA = 352.964709
-DEC =  29.653839
+RA = 64.653663
+DEC =  44.070612
 
 fenzhong = RA*4
 xiaoshi = fenzhong/60

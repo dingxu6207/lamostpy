@@ -11,7 +11,7 @@ from scipy import signal
 
 
 
-hdulist = fits.open('E:/pytest/spec-55918-B5591804_sp02-030.fits.gz')
+hdulist = fits.open('I:/dingxuhardware/lamostdr5/dr5-v1/fits/HD064049N515841V01/spec-56972-HD064049N515841V01_sp07-008.fits.gz')
 hdulist.info()
 print(hdulist[0].header)
 
@@ -24,13 +24,18 @@ zhongzhidata = signal.medfilt(flux,79)
 guiyidata = flux/(zhongzhidata+0.000001)
 
 #plt.plot(wavelength[2578:2591],guiyidata[2578:2591])
-guiyiflux =  guiyidata[2576:2593]
-wavelength = wave[2576:2593]
-lenflux = flux[2576:2593]
+guiyiflux =  guiyidata[2570:2600]
+wavelength = wave[2570:2600]
+lenflux = flux[2570:2600]
+guiyizhongzhi = zhongzhidata[2570:2600]
 
-plt.plot(wavelength,guiyiflux)
-
+plt.figure(0)
+plt.plot(wave,flux)
+plt.plot(wave,zhongzhidata)
 plt.legend()
+
+plt.figure(1)
+plt.plot(wavelength,guiyiflux)
 
 plt.show()
 
