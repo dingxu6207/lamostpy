@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 from scipy import signal
 
 
-
-hdulist = fits.open('I:/dingxuhardware/lamostdr5/dr5-v1/fits/HD064049N515841V01/spec-56972-HD064049N515841V01_sp07-008.fits.gz')
+fitsname = 'I:/dingxuhardware/lamostdr5/dr5-v1/fits/B5593003/spec-55930-B5593003_sp07-060.fits.gz'
+hdulist = fits.open(fitsname)
 hdulist.info()
 print(hdulist[0].header)
 
@@ -30,8 +30,8 @@ lenflux = flux[2570:2600]
 guiyizhongzhi = zhongzhidata[2570:2600]
 
 plt.figure(0)
-plt.plot(wave,flux)
-plt.plot(wave,zhongzhidata)
+plt.plot(wave[2570:2600],flux[2570:2600])
+plt.plot(wave[2570:2600],zhongzhidata[2570:2600])
 plt.legend()
 
 plt.figure(1)
